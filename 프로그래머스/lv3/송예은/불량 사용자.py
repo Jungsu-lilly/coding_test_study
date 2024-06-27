@@ -5,6 +5,7 @@ from itertools import product
 
 # 5번 테케 시간초과 남
 
+# 정규식 해서 줄이기?
 def findBlind(s):
     cnt = []
     for i in range(len(s)):
