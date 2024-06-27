@@ -1,36 +1,64 @@
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
+#include <stack>
+#include <iterator>
+#include <list>
 
 using namespace std;
 
+list<int> l;
+list<int>::iterator l_it[1000004];
+list<int>::iterator cursor; 
+stack<pair<int,int>> s;
 string solution(int n, int k, vector<string> cmd) {
     
-    vector<int> v;
-    vector<pair<int, int>> h;
-    for (int i = 0; i < n; ++i) {
-        v.push_back(i);
+    for(int i = 0; i < n; i++)
+        l.push_back(i);
+    auto it = l.begin();
+    for(int i = 0; i < n; i++) {
+        l_it[i] = it;
+        it++;        
     }
+
+    cursor = l_it[k];
     
-    int cursor = k;
-    for (auto c : cmd) {
-        if (c[0] == 'U') {
-
-            cursor -= c[2]; //atoi
+    for (auto str : cmd) {
+        if (str[0] == 'U') {
+            int num = stoi(str.substr(2));
+            while(num--) --cursor;
         }
-        else if (c[0] == 'D') {
-
-            cursor += c[2]; 
+        else if (str[0] == 'D') {
+            int num = stoi(str.substr(2));
+            while(num--) ++cursor;
         }
-        else if (c[0] == 'C') {
-            pair<int, int> removed = {cursor, v[cursor]};
-            v.erase(v.begin() + cursor);
-            h.push_back(removed);
+        else if (str[0] == 'C') {
+            auto init = cursor;
+            cursor = l.erase(cursor); 
+            if (cursor == l.end()) {
+                --cursor;
+            }
+            s.push({ *init, *cursor });
         }
-        else if (c[0] == 'Z') {
-            v.insert(v.begin() + h[0].first, h[1].second);
-            h.erase(h.begin());
-        }
+        else {
+            auto [cur, nxt] = s.top(); s.pop();
+                        
+            if (cur < nxt) {
+                l.insert(l_it[nxt], cur);
+                auto tmp = l_it[nxt];
+                tmp--;
+                l_it[cur] = tmp;
+            }
+            else {
+                l.insert(l.end(), cur);
+                l_it[cur] = --l.end();
+            }
+        }        
     }
-    return "OX";
+    string str(n, 'X');
+    for (auto e : l) {
+        str[e] = 'O';
+    }
+
+    return str;
 }
