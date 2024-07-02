@@ -2,16 +2,17 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
+#include <unordered_map>
 #include <iostream>
 
 using namespace std;
 
-vector<pair<string, string>> music;
+vector<tuple<string, string, int>> music;
 
 bool is_match(string& a, string& b) {
     if (a.length() < b.length()) return false;
-    
-    for (int i = 0; i < a.length() - b.length(); ++i) {
+
+    for (int i = 0; i < a.length() - b.length() + 1; ++i) {
         int idx = i;
         bool is_matched = true;
         for (int j = 0; j < b.length(); ++j) {
@@ -23,7 +24,7 @@ bool is_match(string& a, string& b) {
                 if (a[idx + j + 1] == '#') is_matched = false;
             }
         }
-        
+
         if (is_matched) return true;
     }
     return false;
@@ -31,39 +32,46 @@ bool is_match(string& a, string& b) {
 
 void make_music(string& m) {
     
-    int st_h, st_m, en_h, en_m;
-    string title_content, title, content;
-    char colon, comma;
     istringstream iss(m);
-    iss >> st_h >> colon >> st_m >> comma >> en_h >> colon >> en_m >> comma >> title_content;
-    size_t pos = title_content.find(',');
-    title = title_content.substr(0, pos);
-    content = title_content.substr(pos + 1);
-    
-    int playing = (en_h * 60 + en_m) - (st_h * 60 + st_m);
-    string gasa = "";
-    int idx = 0;
-    while (playing) {
-        gasa += content[(idx % content.length())];
-        --playing;
-        ++idx;
+    vector<string> split;
+    string tmp;
+    while (getline(iss, tmp, ',')) {
+        split.push_back(tmp);
     }
-    music.push_back({title, gasa});
+    int st = stoi(split[0]) * 60 + stoi(split[0].substr(3));
+    int end = stoi(split[1]) * 60 + stoi(split[1].substr(3));
+    int playing = end - st;    
+
+    int idx = 0;
+    string gasa = "";
+    int time = playing;
+    while (time) {
+        char append = split[3][(idx % split[3].length())];
+        gasa += append;
+        ++idx;
+        if (append == '#') continue;
+        --time;
+    }
+    if (split[3][(idx % split[3].length())] == '#') {
+        gasa += '#';
+    }
+    music.push_back({split[2], gasa, playing});
 }
 
 string solution(string m, vector<string> musicinfos) {
     
+   
     for (int i = 0; i < musicinfos.size(); ++i) {
         make_music(musicinfos[i]);
     }
     
-    sort(music.begin(), music.end(), [](auto& a, auto& b) {
-        return a.second.size() > b.second.size();
+    stable_sort(music.begin(), music.end(), [](auto& a, auto& b) {
+        return get<2>(a) > get<2>(b);
     });
 
     for (auto e : music) {
-        if (is_match(e.second, m)) {
-            return e.first;
+        if (is_match(get<1>(e), m)) {
+            return get<0>(e);
         }
     }
     return "(None)";
