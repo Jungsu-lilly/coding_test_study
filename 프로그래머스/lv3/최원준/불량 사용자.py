@@ -21,6 +21,15 @@ def solution(user_id, banned_id):
                 return False
         return True
 
+    def backtrack(idx, arr):
+        if idx == len(banned_id):
+            combins.add(",".join(sorted(arr)))
+            return
+
+        for c in candid[idx]:
+            if c not in arr:
+                backtrack(idx+1, arr + [c])
+
     candid = defaultdict(list)
     for i, bid in enumerate(banned_id):
         for uid in user_id:
@@ -28,20 +37,6 @@ def solution(user_id, banned_id):
                 candid[i].append(uid)
 
     combins = set()
-    visited = set()
-    def backtrack(idx, arr):
-        if idx == len(banned_id):
-            combins.add(",".join(sorted(arr)))
-            return
-
-        candids = candid[idx]
-        for c in candids:
-            if c in visited:
-                continue
-            visited.add(c)
-            backtrack(idx+1, arr + [c])
-            visited.remove(c)
-
     backtrack(0, [])
 
     return len(combins)
