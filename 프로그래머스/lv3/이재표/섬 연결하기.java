@@ -15,7 +15,6 @@ class Solution {
         }
         for(int i=0;i<costs.length;i++){
             arr[costs[i][0]][costs[i][1]]=costs[i][2];
-            arr[costs[i][1]][costs[i][0]]=costs[i][2];
         }
         pq.offer(new int[]{0,0});
         int sum=0;
