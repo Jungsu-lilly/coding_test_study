@@ -4,7 +4,7 @@
 2. 시간복잡도 :
     O(  )
 3. 자료구조 :
-'
+
 '''
 
 def solution(m, n, board):
