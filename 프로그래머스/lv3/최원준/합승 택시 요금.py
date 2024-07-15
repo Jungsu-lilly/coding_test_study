@@ -12,8 +12,42 @@
 '''
 
 from collections import defaultdict
+import heapq
+def solution(n, s, a, b, fares):
 
+    def dij(start):
+        costs = [float('inf')] * n
+        costs[start] = 0
+        min_heap = [(0, start)]
 
+        while min_heap:
+            curr_cost, u = heapq.heappop(min_heap)
+            if curr_cost > costs[u]:
+                continue
+
+            for v, cost in graph[u]:
+                total_cost = curr_cost + cost
+                if total_cost < costs[v]:
+                    costs[v] = total_cost
+                    heapq.heappush(min_heap, (total_cost, v))
+        return costs
+
+    s, a, b = s - 1, a - 1, b - 1
+    graph = [[] for _ in range(n)]
+    for u, v, c in fares:
+        graph[u - 1].append((v - 1, c))
+        graph[v - 1].append((u - 1, c))
+
+    cost_from_s = dij(s)
+    cost_from_a = dij(a)
+    cost_from_b = dij(b)
+
+    ans = float('inf')
+    for mid in range(n):
+        ans = min(ans, cost_from_s[mid] + cost_from_a[mid] + cost_from_b[mid])
+    return ans
+
+'''
 def solution(n, s, a, b, fares):
     s, a, b = s - 1, a - 1, b - 1
     dp = [[float('inf')] * n for _ in range(n)]
@@ -33,3 +67,4 @@ def solution(n, s, a, b, fares):
     for mid in range(n):
         ans = min(ans, dp[s][mid] + dp[mid][a] + dp[mid][b])
     return ans
+'''
