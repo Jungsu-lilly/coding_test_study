@@ -1,0 +1,23 @@
+import java.util.*;
+class Solution {
+    boolean[]visit;
+    public int solution(int n, int[][] computers) {
+        int answer = 0;
+        visit=new boolean[n];
+        for(int i=0;i<n;i++){
+            if(!visit[i]){
+                dfs(i,computers);
+                answer++;
+            }
+        }
+        return answer;
+    }
+    public void dfs(int idx,int[][] computers){
+        visit[idx]=true;
+        for(int i=0;i<computers.length;i++){
+            if (!visit[i] && computers[idx][i] == 1) {
+                dfs(i,computers);
+            }
+        }
+    }
+}
