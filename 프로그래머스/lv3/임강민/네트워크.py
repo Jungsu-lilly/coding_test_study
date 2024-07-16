@@ -13,4 +13,4 @@ def solution(n, computers):
         if not v[i]:
             dfs(i)
             answer += 1
-    return aㄴnswer
+    return answer
