@@ -19,3 +19,10 @@ def solution(triangle):
             triangle[row][col] += max(triangle[row - 1][col - 1], triangle[row - 1][col])
         triangle[row][-1] += triangle[row - 1][-1]  # 가장 오른쪽
     return max(triangle[-1])
+
+def solution(triangle):
+    size = len(triangle)
+    for row in range(size-2,-1,-1):
+        for col in range(row+1):
+            triangle[row][col] += max(triangle[row+1][col], triangle[row+1][col+1])
+    return triangle[0][0]
