@@ -48,6 +48,8 @@ def solution(p):
 
     return balance('', 0, 0, 0)
 
+def solution():
+    pass
 
 ans = solution("(()())()") #"(()())()"
 solution(")(") #"()"
