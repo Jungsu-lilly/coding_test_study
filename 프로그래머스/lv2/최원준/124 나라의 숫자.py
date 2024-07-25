@@ -22,3 +22,4 @@ def solution(n):
     map = {1:"1", 2:"2", 3:"4"}
     arr = convert(n)
     return "".join([map[arr[i]] for i in range(len(arr))])
+
