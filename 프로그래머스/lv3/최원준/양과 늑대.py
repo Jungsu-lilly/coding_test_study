@@ -9,42 +9,26 @@
 
 '''
 
-
 from collections import defaultdict, deque
 def solution(info, edges):
-    graph = defaultdict(list)
-    for u, v in edges:
-        graph[u].append(v)
-        graph[v].append(u)
-    print(graph)
+    def dfs(sheep, wolf):
+        if sheep<= wolf:
+            return
 
-    cmax = [0]
-    sw = [0,0] #sheep, wolve
+        ans[0] = max(ans[0], sheep)
 
-    sheeps = []
+        for par, child in edges:
+            if par in visited and child not in visited:
+                visited.add(child)
+
+                if info[child]:
+                    dfs(sheep, wolf+1)
+                else:
+                    dfs(sheep+1, wolf)
+                visited.remove(child)
 
     visited = set()
     visited.add(0)
-    def dfs(node, wolves):
-        if info[node] == 0:
-            sheeps.append(wolves)
-            wolves = 0
-        else:
-            wolves += 1
-        for child in graph[node]:
-            if child in visited:
-                continue
-            visited.add(child)
-            dfs(child, wolves)
-
-    dfs(0,0)
-    print(sheeps)
-
-    sheeps.sort(reverse=True)
-    curr = 0
-    count = 0
-    print(sheeps)
-    while curr >= sheeps[-1]:
-        count+=1
-        curr += sheeps.pop()
-    return count
+    ans = [0]
+    dfs(1, 0)
+    return ans[0]
