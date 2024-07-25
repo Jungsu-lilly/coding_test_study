@@ -1,25 +1,32 @@
 import java.util.*;
 class Solution {
-    int[][]board;
+    int[] gInfo;
+    int[][]gEdges;
+    int maxSheepCnt=0;
     public int solution(int[] info, int[][] edges) {
-        int answer = 0;
-        int n=info.length;
-        board=new int[n][n];
-        for(int i=0;i<n;i++){
-            Arrays.fill(board[i],-1);
-        }
-        for(int i=0;i<edges.length;i++){
-            board[edges[i][0]][edges[i][1]]=info[i];
-        }
-        boolean[] visit=new boolean[n];
-        visit[0]=true;
-        brute(visit,1,0);
-        return answer;
+        gInfo=info;
+        gEdges=edges;
+        boolean[]visit=new boolean[info.length];
+        dfs(0,visit,0,0);
+        return maxSheepCnt;
     }
-    public void brute(boolean[]visit,int cnt,int start){
-        for(int i=0;i<board.length;i++){
-            if(board[start][i]==-1){
-                continue;
+    public void dfs(int idx,boolean[]visit,int sheepCnt,int wolfCnt){
+        visit[idx]=true;
+        if(gInfo[idx]==0){
+            sheepCnt++;
+            if(sheepCnt>maxSheepCnt){
+                maxSheepCnt=sheepCnt;
+            }
+        }else{
+            wolfCnt++;
+        }
+        if(sheepCnt<=wolfCnt){
+            return;
+        }
+        for(int[]edge:gEdges){
+            if(visit[edge[0]]&& !visit[edge[1]]){
+                dfs(edge[1],visit,sheepCnt,wolfCnt);
+                visit[edge[1]]=false;
             }
         }
     }
