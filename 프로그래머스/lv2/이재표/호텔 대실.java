@@ -5,9 +5,9 @@ class Solution {
         Arrays.sort(book_time,new Comparator<String[]>(){
             @Override
             public int compare(String[]s1,String[]s2){
-                if(toSec(s1[1])<toSec(s2[1])){
+                if(toSec(s1[0])<toSec(s2[0])){
                     return -1;
-                }else if(toSec(s1[1])>toSec(s2[1])){
+                }else if(toSec(s1[0])>toSec(s2[0])){
                     return 1;
                 }else{
                     return toSec(s1[0])-toSec(s2[0]);
@@ -19,7 +19,7 @@ class Solution {
             System.out.println(book_time[i][0] +" "+book_time[i][1]);
         }
         boolean[] visit=new boolean[n];
-       for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             if (visit[i]) {
                 continue;
             }
@@ -33,7 +33,7 @@ class Solution {
                 }
             }
         }
-        
+
         return answer;
     }
     public int toSec(String s){
