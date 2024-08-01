@@ -1,5 +1,6 @@
 ---
-
+name: Pull Reqeust Template
+about: PR 작성시 사용하는 템플릿입니다
 title: "[이름] Day00"
 labels: ""
 assignees:
