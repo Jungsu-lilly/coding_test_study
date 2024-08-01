@@ -30,8 +30,7 @@ def solution():
 # dp = [[0 for _ in range(n)] for _ in range(n)]
 # dp = [[0 for j in range(n)] for i in range(n)]
 # grid = [list(input().rstrip()) for _ in range(n)] # "aaa" "bbb"
-# grid = list(list(map(int, input().split())) for _ in range(n)) # "0 0 0 0", "0 0 0 0"
-
+# grid = list(list(map(int, input().split())) for _ in range(n)) # 0 0 0 0", "0 0 0 0
 
 print(solution())
 
