@@ -10,8 +10,8 @@ def solution(n, tops):
     b[0] = 3 if tops[0] else 2
     
     for k in range(1, n):
-        a[k] = a[k-1] + b[k-1]
-        b[k] = a[k-1]*(tops[k]+1) + b[k-1]*(tops[k]+2)
+        a[k] = (a[k-1] + b[k-1])%10007
+        b[k] = (a[k-1]*(tops[k]+1) + b[k-1]*(tops[k]+2))%10007
     return (a[-1]+b[-1])%10007
 
 solution(4, [1, 1, 0, 1])
