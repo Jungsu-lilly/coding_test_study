@@ -9,24 +9,26 @@
 
 '''
 
-from itertools import combinations, product
+from itertools import combinations
 from collections import defaultdict
 
-def solution(dice):
 
-    def calc_sum(comb): # 모든 조합
+def solution(dice):
+    def calc_sum(comb):  # 모든 조합
         sums = defaultdict(int)
+
         def dfs(index, curr):
             if index == len(comb):
                 sums[curr] += 1
                 return
             for value in comb[index]:
                 dfs(index + 1, curr + value)
+
         dfs(0, 0)
         return sums
 
-    def calc_win(A_dice, B_dice): # 점수 계산
-        winA = winB = draw = 0
+    def calc_win(A_dice, B_dice):  # 점수 계산
+        winA = 0
         candidsA, candidsB = calc_sum(A_dice), calc_sum(B_dice)
 
         for candidA, countA in candidsA.items():

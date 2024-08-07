@@ -40,11 +40,11 @@ def solution(board):
                 Os += 1
             elif board[row][col] == "X":
                 Xs += 1
-    if Xs > Os or Os>5 or Xs>4 or Os > Xs + 1:
+    if Xs > Os or Os > 5 or Xs > 4 or Os > Xs + 1:
         print(1)
         return 0
 
-    finished=False
+    finished = False
     winner = None
     for i in range(3):
         if check_row(i):
@@ -73,7 +73,7 @@ def solution(board):
         finished = True
         winner = board[1][1]
 
-    if winner == "O" and Xs != Os-1:
+    if winner == "O" and Xs != Os - 1:
         return 0
     if winner == "X" and Xs != Os:
         return 0
