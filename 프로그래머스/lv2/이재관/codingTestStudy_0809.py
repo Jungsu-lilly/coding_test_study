@@ -1,5 +1,4 @@
 def solution(k, ranges)
-
     def getExtent(x,y):
         extent = (x+y)*1/2
         return extent
