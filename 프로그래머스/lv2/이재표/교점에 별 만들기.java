@@ -14,16 +14,16 @@ class Solution {
                 int D = line[j][1];
                 int F = line[j][2];
 
-                int under = A * D - B * C;
+                long under =(long) A * D - (long)B * C;
                 if (under == 0) continue; 
 
-                int xi = B * F - E * D;
-                int yi = E * C - A * F;
+                long xi = (long)B * F - (long)E * D;
+                long yi =(long) E * C - (long)A * F;
 
                 if (xi % under != 0 || yi % under != 0) continue; 
 
-                int x = xi / under;
-                int y = yi / under;
+                int x =(int)( xi / under);
+                int y =(int)( yi / under);
 
                 set.add(new int[]{x, y});
             }
