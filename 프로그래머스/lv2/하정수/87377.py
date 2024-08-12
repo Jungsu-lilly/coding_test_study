@@ -16,7 +16,7 @@ def solution(line): # Ax + By + C = 0
                 ans.append([x,y])
     
     ans.sort(key = lambda x: (-x[1], x[0]))  # y좌표 내림차순, x좌표 오름차순
-    mx, Mx, my, My = 900_000, -900_000, 900_000, -900_000
+    mx, Mx, my, My = float('inf'), -float('inf'), float('inf'), -float('inf')
     
     for l in ans:
         mx = min(mx, l[0])
