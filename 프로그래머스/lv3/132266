@@ -1,0 +1,24 @@
+from collections import deque
+
+def solution(n, roads, sources, destination):
+    visited = [-1]*(n+1)
+    graph = [[] for _ in range(n+1)]
+    
+    for s, e in roads:
+        graph[s].append(e)
+        graph[e].append(s)
+
+    q = deque()
+    q.append(destination)
+    visited[destination] = 0
+    
+    # 목적지에서부터 bfs 수행
+    while q:
+        cur = q.popleft()
+
+        for next in graph[cur]:
+            if visited[next] == -1:
+                visited[next] = visited[cur]+1
+                q.append(next)
+
+    return [visited[i] for i in sources]
