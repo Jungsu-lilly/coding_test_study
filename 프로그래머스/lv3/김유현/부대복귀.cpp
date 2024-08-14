@@ -20,22 +20,20 @@ vector<int> solution(int n, vector<vector<int>> roads, vector<int> sources, int 
     }
         
     // destination에서 갈 수 있는 모든 곳 bfs로 구하기
-    // 지역, 깊이 
-    queue<pair<int, int>> q;
-    q.push({destination, 1});
+    queue<int> q;
+    q.push(destination);
     visited[destination] = 1;
 
     while(!q.empty()) {
-        int curr = q.front().first;
-        int depth = q.front().second;
+        int curr = q.front();
         q.pop();
         
         for(int next : adj[curr]) {
             if (visited[next])
                 continue; 
             
-            visited[next] = depth + 1;
-            q.push({next, depth + 1}); 
+            visited[next] = visited[curr] + 1;
+            q.push(next); 
         }
         
     }
