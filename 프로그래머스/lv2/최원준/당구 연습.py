@@ -46,9 +46,4 @@ def solution(m, n, startX, startY, balls):
             return min(direction(x1,y1,x2,y2,"right"), direction(x1,y1,x2,y2,"left"), direction(x1,y1,x2,y2,"down"))
         return min(direction(x1,y1,x2,y2,"left"), direction(x1,y1,x2,y2,"right"), direction(x1,y1,x2,y2,"down"), direction(x1,y1,x2,y2,"up"))
 
-    ans = []
-    for x2, y2 in balls:
-        ans.append(get_dist(startX, startY, x2, y2))
-    return ans
-
-
+    return [get_dist(startX, startY, x2, y2) for x2, y2 in balls]
