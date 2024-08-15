@@ -9,41 +9,46 @@
 
 '''
 
+def solution(m, n, startX, startY, balls):
+    '''
+    y1 == y2 and x1 == x2: 0
+    y1 == y2 and x1 < x2 : 오른X
+    y1 == y2 and x1 > x2 : 왼X
+    x1 == x2 and y1 > y2 : 아래X
+    x1 == x2 and y1 < y2 : 위X
 
-import sys
-#sys.setrecursionlimit(1000000)
-input = sys.stdin.readline
+    오른쪽 = (x1,y1), ( m-x1 + m-x2, abs(y1-y2)   )
+    왼쪽 = (x1, y1), ( (x1+x2), abs(y1-y2) )
+    아래쪽 = (x1, y1), ( (abs(x1-x2), y1+y2)   )
+    위쪽 = (x1, y1), ( (abs(x1-x2), n-y1 + n-y2   )
+    '''
 
-def solution():
+    def direction(x1, y1, x2, y2, dir):
+        if dir == "right":
+            return (m-x1 + m-x2)**2 + (y1-y2)**2
+        elif dir == "left":
+            return (x1+x2)**2 + (y1-y2)**2
+        elif dir == "down":
+            return (x1-x2)**2 + (y1+y2)**2
+        elif dir == "up":
+            return (x1-x2)**2 + (n-y1 + n-y2)**2
 
-    return 1
+    def get_dist(x1, y1, x2, y2):
+        if x1 == x2 and y1 == y2:
+            return 0
+        if y1 == y2 and x1 < x2: #오른 X
+            return min(direction(x1,y1,x2,y2,"left"), direction(x1,y1,x2,y2,"down"), direction(x1,y1,x2,y2,"up"))
+        if y1 == y2 and x1 > x2: #왼X
+            return min(direction(x1,y1,x2,y2,"right"), direction(x1,y1,x2,y2,"down"), direction(x1,y1,x2,y2,"up"))
+        if x1 == x2 and y1 > y2: #아래X
+            return min(direction(x1,y1,x2,y2,"right"), direction(x1,y1,x2,y2,"left"), direction(x1,y1,x2,y2,"up"))
+        if x1 == x2 and y1 < y2: #위X
+            return min(direction(x1,y1,x2,y2,"right"), direction(x1,y1,x2,y2,"left"), direction(x1,y1,x2,y2,"down"))
+        return min(direction(x1,y1,x2,y2,"left"), direction(x1,y1,x2,y2,"right"), direction(x1,y1,x2,y2,"down"), direction(x1,y1,x2,y2,"up"))
 
-# n = int(input().rstrip())
-#
-# n, m = list(map(int, input().split()))
-# a = [c for c in input().strip()]
-#
-# s = input().rstrip()
-
-# arr = list(map(int, input().strip().split()))
-# integer_list = [int(num) for num in input().split()]
-# dp = [[0 for _ in range(n)] for _ in range(n)]
-# dp = [[0 for j in range(n)] for i in range(n)]
-# grid = [list(input().rstrip()) for _ in range(n)] # "aaa" "bbb"
-# grid = list(list(map(int, input().split())) for _ in range(n)) # 0 0 0 0", "0 0 0 0
-
-
-def direction(x1, y1, x2, y2, dir):
-    if dir == "right":
-        return (m-x1 + m-x2)**2 + abs(y1-y2)**2
-    elif dir == "left":
-        return (x1+x2)**2 + abs(y1-y2)**2
-    elif dir == "down":
-        return abs(x1-x2)**2 + (y1+y2)**2
-    elif dir == "up":
-        return abs(x1-x2)**2 + (n-y1 + n-y2)**2
-
-n = m = 10
-print(direction(3,7,7,7,"up")
+    ans = []
+    for x2, y2 in balls:
+        ans.append(get_dist(startX, startY, x2, y2))
+    return ans
 
 
