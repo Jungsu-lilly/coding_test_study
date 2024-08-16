@@ -36,23 +36,18 @@ def solution(grid):
             ny = 0
         return nx, ny
 
-    visited = [[[-1, -1, -1, -1] for _ in range(m)] for _ in range(n)]
+    visited = [[[False, False, False, False] for _ in range(m)] for _ in range(n)]
 
     def bfs(startX, startY, startDir):
-        path = []
         curr_x, curr_y, curr_dir = startX, startY, startDir
         count = 0
 
-        while visited[curr_x][curr_y][curr_dir] == -1:
-            visited[curr_x][curr_y][curr_dir] = 0
-            path.append((curr_x, curr_y, curr_dir))
+        while not visited[curr_x][curr_y][curr_dir]:
+            visited[curr_x][curr_y][curr_dir] = True
             count += 1
 
             curr_dir = get_dir(grid[curr_x][curr_y], curr_dir)
             curr_x, curr_y = next_cord(curr_x, curr_y, curr_dir)
-
-        for i, (x, y, dir) in enumerate(path):
-            visited[x][y][dir] = count - i
 
         return count
 
@@ -60,7 +55,7 @@ def solution(grid):
     for row in range(n):
         for col in range(m):
             for direction in range(4):
-                if visited[row][col][direction] == -1:
+                if not visited[row][col][direction]:
                     ans.append(bfs(row, col, direction))
 
     return sorted(ans)
